@@ -2,6 +2,7 @@ package tp1;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,25 +15,66 @@ public class Tls {
 		if (args.length < 1) {
             System.out.println("veuiller mettre un ficheir d'entree");
             System.exit(1);
-		}
+			}
+		
+		// la liste qui va contenir les donnees de sorties
 		List<String> data = new ArrayList<>();
-		 String pwd = args[0];
-		 File fichier = new File(pwd);
-         //si le fichier n'existe pas
-         if (!fichier.exists()) {
-         	System.out.println("Le fichier : " + pwd +" n'existe pas ");
-         	System.exit(1);
-         }
-
-		 //ajouter le chemin du fichier
-		 data.add(String.valueOf(args[0]));
-		 lireFichier(pwd,data);
-		 print(data);
+		
+		//fichier d'entre
+		String fileInput = args[0];
+		File fichier = new File(fileInput);
+		
+		//si le fichier n'existe pas
+		if (!fichier.exists()) {
+	         System.out.println("Le fichier : " + fileInput +" n'existe pas ");
+	         System.exit(1);
+	         }
+		
+		//si l'entree est un dossier
+		if(fichier.isDirectory()) {
+			dossier(fichier,data);
+			}
+		//si l'entree est un fichier
+		else {
+			lireFichier(fileInput,data);
+			}
+		//si on donne un chemin de sorti
+		 if (args.length == 3 && args[1].equals("-o")) {
+	            try (PrintWriter writer = new PrintWriter(new FileWriter(args[2]))) {
+	            	writer.println("chemin du fichier, nom du paquet, nom de la classe, tloc de la classe, tassert de la classe, tcmp de la classe");
+	            	//ecrire le contenu de data dans un fichier de sorti
+	            	for (String line : data) {
+	                    writer.println(line);
+	                }
+	            	
+	                System.out.println("Resultats ecrits dans le fichier: " + args[2]);	
+	            }
+	            catch (IOException e) {
+	            	e.printStackTrace();
+	            }
+	     	}
+		 //sinon imprimer le contenu de data
+		 else {
+			 print(data);
+		 }
 	}
 
 
+	//dossier prend en parametre File fichier et liste de string 
+	public static void dossier(File fichier,List<String> temp) {
+		
+		File[] fichiersDossier = fichier.listFiles();
+		//si le contenue de dossier est pas null traiter le contenue de chaque fichier
+		if (fichiersDossier != null) {
+            for (File n : fichiersDossier) {
+                if (n.isFile()) {  	
+                	lireFichier(n.getPath(),temp);      
+                	}
+             	}
+         	}
+	}
 //lireFichier permet de extraire tloc tcmp nombre d'assert class et package 
-	//on donne en argument le chemin du fichier et une tableau de string
+//on donne en argument le chemin du fichier et une tableau de string
 public static void lireFichier( String fichier,List<String> data) {
 	//lire fichier ligne par ligne
 	try (BufferedReader reader = new BufferedReader(new FileReader(fichier))) {
@@ -49,7 +91,7 @@ public static void lireFichier( String fichier,List<String> data) {
         	if (line.contains("/*")) {
     			comnt=true;
     			continue;
-    		}
+    			}
         	
         	else {
         		//si la ligne contient class mais pas en commentaire
@@ -58,10 +100,11 @@ public static void lireFichier( String fichier,List<String> data) {
         			String[] ligneClasse = line.split("\\s+");
         			for (String token : ligneClasse) {
                         if (token.equals("class") ) {
-                        	cls= ligneClasse[2];}
+                        	cls= ligneClasse[2];
                         	}
+                        }
         			
-            	}
+            		}
         		//si la ligne contient le mot package et n'est pas en commentaire
         		if (line.contains("package")&& comnt ==false &&!line.startsWith("//") ) {
         			//extraire le nom du package
@@ -69,8 +112,9 @@ public static void lireFichier( String fichier,List<String> data) {
         			for (String token : lignePack) {
                         if (token.equals("package") ) {
                         	pack= lignePack[1];
-                        	pack=pack.replace(";", "");}//enlever le point virgule
+                        	pack=pack.replace(";", "");
                         	}
+                        }
         		}
         		
         		//si ce n'est pas un commentaire ajouter 1 a tloc
@@ -84,20 +128,17 @@ public static void lireFichier( String fichier,List<String> data) {
             	//fin du paragraph
                 if (comnt==true && line.contains("*/")) {
                 	comnt=false;
-                }
-        		}
-        	
+                	}
+        		}	
         }
         //calcule tcmp
         if (tloc!=0 && tassert!=0) {
-        tcmp=tloc/tassert;}
-        //ajouter element au data
-        data.add(pack);
-        data.add(cls);
-        data.add(Integer.toString(tloc));
-        data.add(Integer.toString(tassert));
-        data.add(String.valueOf(tcmp));
-        
+        tcmp=tloc/tassert;
+        	}
+        //mettre tous les donnes d'un ficheir dans un string temp
+        String temp=fichier+", "+pack+", "+cls+", "+Integer.toString(tloc)+", "+Integer.toString(tassert)+", "+String.valueOf(tcmp);
+        //ajouter tempcomme element au data
+        data.add(String.valueOf(temp));
         } 
 	
 	
@@ -109,19 +150,16 @@ public static void lireFichier( String fichier,List<String> data) {
 }
 //print data
 public static void print(List<String> data) {
-    int taille = data.size();
-    String lastElem=data.get(taille -1);
+
 	for (String n : data) {
-		if (n!= lastElem) {
-        System.out.print( n+", ");
-        }
-		else {
-			System.out.print(n);
+		
+        System.out.println( n);
+       
 		}
         
     }
 }
-}
+
 
 
 
