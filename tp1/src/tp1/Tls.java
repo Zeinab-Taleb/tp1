@@ -60,16 +60,20 @@ public class Tls {
 	}
 
 
-	//dossier prend en parametre File fichier et liste de string 
-	public static void dossier(File fichier,List<String> temp) {
-		
-		File[] fichiersDossier = fichier.listFiles();
-		//si le contenue de dossier est pas null traiter le contenue de chaque fichier
-		if (fichiersDossier != null) {
+//dossier prend en parametre File fichier et liste de string 
+public static void dossier(File fichier,List<String> temp) {
+	File[] fichiersDossier = fichier.listFiles();
+	//si le contenue de dossier est pas null traiter le contenue de chaque fichier
+	if (fichiersDossier != null) {
             for (File n : fichiersDossier) {
                 if (n.isFile()) {  	
                 	lireFichier(n.getPath(),temp);      
                 	}
+		else {
+                	if (n.isDirectory()) {
+                		dossier(n,temp);
+                	}
+                }
              	}
          	}
 	}
