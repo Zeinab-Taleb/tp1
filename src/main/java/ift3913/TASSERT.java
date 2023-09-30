@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class TLOC {
+public class TASSERT {
 
     public static void main(String[] args) {
         int count = 0;
@@ -29,12 +29,12 @@ public class TLOC {
                 String line;
                 // go through the file line by line
                 while ((line = reader.readLine()) != null) {
-                    // if the line is not empty or doesn't start with a comment
-                    if (!line.isEmpty() && !line.trim().startsWith("//")) {
+                    // if the line contains an assertion
+                    if (line.contains("assert")) {
                         count++;
                     }
                 }
-            // print number of non-empty / commented lines
+            // print number of lines containing assertion
             System.out.println(count);
             }
         } 
