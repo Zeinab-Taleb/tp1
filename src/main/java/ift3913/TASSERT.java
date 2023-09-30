@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TASSERT {
 
@@ -30,7 +32,10 @@ public class TASSERT {
                 // go through the file line by line
                 while ((line = reader.readLine()) != null) {
                     // if the line contains an assertion
-                    if (line.contains("assert")) {
+                    Pattern patternAssert = Pattern.compile("assert[a-zA-Z]+\\(");
+                    Matcher mAssert = patternAssert.matcher(line);
+
+                    if (mAssert.find() || line.contains("fail(")) {
                         count++;
                     }
                 }
