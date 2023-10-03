@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 public class TASSERT {
 
     public static void main(String[] args) {
-        int count = 0;
         String file_path = "";
 
         // if the file path is given in the command
@@ -25,6 +24,15 @@ public class TASSERT {
             file_path = scanner.nextLine();
             scanner.close();
         }
+
+        int count = getTassert(file_path);
+        // print number of lines containing assertion
+        System.out.println(count);
+    }
+
+    public static int getTassert(String file_path) {
+        int count = 0;
+
         try {
             FileReader fr = new FileReader(file_path);
             try (BufferedReader reader = new BufferedReader(fr)) {
@@ -39,12 +47,12 @@ public class TASSERT {
                         count++;
                     }
                 }
-            // print number of lines containing assertion
-            System.out.println(count);
             }
         } 
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        return count;
     }
 }
