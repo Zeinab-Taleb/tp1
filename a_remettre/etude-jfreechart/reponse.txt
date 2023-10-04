@@ -1,0 +1,9 @@
+Partie 5.
+
+Tropcomp nous permet d'évaluer de façon très générale la complexité du code, 
+mais le ratio de lignes totales de code / nombre d'assertions n'est pas assez 
+pour déterminer sa complexité. 
+En effet, il faudrait prendre en compte plus d'éléments tels que:
+    - le nombre de structures de controle (if et loops...)
+    - sa profondeur dans l'arbre d'héritage
+    - la mesure d'interdépendance entre les modules
