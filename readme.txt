@@ -4,6 +4,9 @@ etudiant 1:
 matricule :20102655
 nom :zeinab taleb
 etudiant 2:
+matricule: 20159028
+nom: Dana Seif Eddine
+
 
 devoir 1 
 ce devoir est compose de 5 partie independentes:

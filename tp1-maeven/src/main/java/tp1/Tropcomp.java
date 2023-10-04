@@ -103,11 +103,12 @@ public class Tropcomp {
 		
 		 else {
 		
-		
-			 
 			 for (int i=0;i<=instersction.size()-1;i++) {
 					for (int j=0;j<=instersction.get(i).size()-1;j++) {
-					System.out.print(instersction.get(i).get(j)+" ");
+						System.out.print(instersction.get(i).get(j)+" ");
+						if (j < instersction.get(i).size() - 1) {
+				            System.out.print(", ");
+				        }
 					}
 					System.out.println("\n");
 				}
