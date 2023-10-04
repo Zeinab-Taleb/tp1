@@ -103,11 +103,12 @@ public class Tropcomp {
 		
 		 else {
 		
-		
-			 
 			 for (int i=0;i<=instersction.size()-1;i++) {
 					for (int j=0;j<=instersction.get(i).size()-1;j++) {
-					System.out.print(instersction.get(i).get(j)+" ");
+						System.out.print(instersction.get(i).get(j)+" ");
+						if (j < instersction.get(i).size() - 1) {
+				            System.out.print(", ");
+				        }
 					}
 					System.out.println("\n");
 				}
@@ -218,7 +219,7 @@ public class Tropcomp {
 			if (tassert != 0 && tloc!=0) {
 				
 				tcmp =  Math.round((double )tloc/tassert * 10) / 10.0;
-				System.out.println(tcmp);
+	
 				// ajouter les element a la liste
 				temp.add(fichier);
 				temp.add(pack);
