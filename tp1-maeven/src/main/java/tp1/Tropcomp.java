@@ -219,7 +219,7 @@ public class Tropcomp {
 			if (tassert != 0 && tloc!=0) {
 				
 				tcmp =  Math.round((double )tloc/tassert * 10) / 10.0;
-				System.out.println(tcmp);
+	
 				// ajouter les element a la liste
 				temp.add(fichier);
 				temp.add(pack);
